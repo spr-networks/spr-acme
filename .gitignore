@@ -1,0 +1,8 @@
+configs/
+state/
+.github_creds
+.spr-setup-done
+node_modules
+frontend/build
+.DS_Store
+code/spr_acme_plugin

@@ -1,0 +1,37 @@
+x-labels:
+  &default-labels
+  org.supernetworks.ci: "true"
+  org.supernetworks.version: ${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+
+services:
+  spr-acme:
+    container_name: spr-acme
+    image: ghcr.io/spr-networks/spr-acme:${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+    build:
+      context: "${BUILDCTX:-.}"
+      labels: *default-labels
+      args:
+        RELEASE_VERSION: ${RELEASE_VERSION:-dev}
+    restart: always
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      acmenet:
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - "${SUPERDIR}./state/plugins/spr-acme:/state/plugins/spr-acme"
+      - "${SUPERDIR}./configs/base/config.sh:/configs/base/config.sh:ro"
+      - "${SUPERDIR}./configs/plugins/spr-acme:/configs/spr-acme"
+
+networks:
+  acmenet:
+    name: spr-acme
+    driver_opts:
+      com.docker.network.bridge.name: spr-acme
