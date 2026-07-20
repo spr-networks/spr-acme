@@ -28,7 +28,7 @@ if ! sudo nft get element inet filter dhcp_access "{ \"${KRUN_TAP}\" . ${KRUN_MA
 fi
 
 ./build_docker_compose.sh --load
-docker compose -f docker-compose-krun.yml up -d
+docker compose -f docker-compose-kvm.yml up -d
 
 CONTAINER_IP=
 for _ in $(seq 1 30); do

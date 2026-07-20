@@ -1,6 +1,6 @@
 {
   "Name": "spr-acme",
-  "ComposeFilePath": "plugins/user/spr-acme/docker-compose-krun.yml",
+  "Runtime": "kvm",
   "UnixPath": "/state/plugins/spr-acme/socket",
   "URI": "spr-acme",
   "HasUI": true,
