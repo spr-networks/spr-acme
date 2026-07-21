@@ -43,12 +43,12 @@ RUN set -eux; \
     git fetch -q --depth 1 origin "${LEGO_COMMIT}"; \
     git checkout -q FETCH_HEAD; \
     [ "$(git rev-parse HEAD)" = "${LEGO_COMMIT}" ]
-RUN --mount=type=tmpfs,target=/root/go/ --mount=type=tmpfs,target=/root/.cache/ \
+RUN --mount=type=cache,target=/root/go/ --mount=type=cache,target=/root/.cache/ \
     cd /src/lego && CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o /lego .
 
 WORKDIR /code
 COPY code/ /code/
-RUN --mount=type=tmpfs,target=/root/go/ --mount=type=tmpfs,target=/root/.cache/ \
+RUN --mount=type=cache,target=/root/go/ --mount=type=cache,target=/root/.cache/ \
     CGO_ENABLED=0 go test ./... && \
     CGO_ENABLED=0 go build -trimpath \
       -ldflags "-s -w -X main.pluginVersion=${RELEASE_VERSION} -X main.legoVersion=${LEGO_VERSION}" \
