@@ -16,10 +16,6 @@ services:
     environment:
       SPR_KRUN_PLUGIN_SOCKET: "/run/spr-krun-plugin/spr-acme.sock"
       SPR_KRUN_VSOCK_PORT: "4040"
-    volumes: !override
-      - "${SUPERDIR}./state/plugins/spr-acme:/state/plugins/spr-acme"
-      - "${SUPERDIR}./configs/base/config.sh:/configs/base/config.sh:ro"
-      - "${SUPERDIR}./configs/plugins/spr-acme:/configs/spr-acme"
     devices:
       - "/dev/net/tun:/dev/net/tun"
     tmpfs:
