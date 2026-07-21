@@ -19,12 +19,12 @@ printf '%s' "$SPR_API_TOKEN" > "$SUPERDIR/configs/plugins/spr-acme/api-token"
 chmod 600 "$SUPERDIR/configs/plugins/spr-acme/api-token"
 
 KRUN_MAC="02:53:50:52:4b:02"
-KRUN_TAP="kacme0"
+PLUGIN_INTERFACE="spr-acme"
 curl --fail-with-body --silent --show-error "http://127.0.0.1/device?identity=${KRUN_MAC}" \
   -H "Authorization: Bearer ${SPR_API_TOKEN}" -H "Content-Type: application/json" \
   -X PUT --data-raw "{\"MAC\":\"${KRUN_MAC}\",\"Name\":\"spr-acme\",\"Policies\":[\"wan\",\"dns\",\"api\"],\"Groups\":[]}" >/dev/null
-if ! sudo nft get element inet filter dhcp_access "{ \"${KRUN_TAP}\" . ${KRUN_MAC} }" >/dev/null 2>&1; then
-  sudo nft add element inet filter dhcp_access "{ \"${KRUN_TAP}\" . ${KRUN_MAC} : accept }"
+if ! sudo nft get element inet filter dhcp_access "{ \"${PLUGIN_INTERFACE}\" . ${KRUN_MAC} }" >/dev/null 2>&1; then
+  sudo nft add element inet filter dhcp_access "{ \"${PLUGIN_INTERFACE}\" . ${KRUN_MAC} : accept }"
 fi
 
 ./build_docker_compose.sh --load
@@ -40,6 +40,6 @@ done
 curl --fail-with-body --silent --show-error "http://127.0.0.1/firewall/custom_interface" \
   -H "Authorization: Bearer ${SPR_API_TOKEN}" \
   -X PUT \
-  --data-raw "{\"SrcIP\":\"${CONTAINER_IP}\",\"Interface\":\"${KRUN_TAP}\",\"Policies\":[\"wan\",\"dns\",\"api\"]}"
+  --data-raw "{\"SrcIP\":\"${CONTAINER_IP}\",\"Interface\":\"${PLUGIN_INTERFACE}\",\"Policies\":[\"wan\",\"dns\",\"api\"]}"
 
 echo "spr-acme is installed. Open Plugins -> spr-acme to configure the DNS provider and certificates."

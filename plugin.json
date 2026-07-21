@@ -11,7 +11,7 @@
     "/dns/hostnames:rw"
   ],
   "NetworkCapabilities": {
-    "Interface": "kacme0",
+    "Interface": "spr-acme",
     "DeviceMAC": "02:53:50:52:4b:02",
     "Policies": ["wan", "dns", "api"],
     "Groups": []

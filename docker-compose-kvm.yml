@@ -3,13 +3,13 @@ services:
     extends:
       file: docker-compose.yml
       service: spr-acme
+    image: ghcr.io/spr-networks/spr-acme:${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:--krun}
     runtime: ${SPR_KRUN_RUNTIME:-spr-krun}
-    network_mode: host
-    networks: !reset []
     annotations:
       krun.cpus: "${SPR_KRUN_CPUS:-1}"
       krun.ram_mib: "${SPR_KRUN_RAM_MIB:-512}"
-      krun.tap_name: "kacme0"
+      krun.tap_name: "kruntap0"
+      krun.net_uplink: "eth0"
       krun.net_mac: "${SPR_KRUN_MAC:-02:53:50:52:4b:02}"
       krun.vsock_path: "/state/plugins/spr-acme/socket"
       krun.vsock_port: "4040"
@@ -20,3 +20,9 @@ services:
       - "/dev/net/tun:/dev/net/tun"
     tmpfs:
       - /run:rw,nosuid,nodev,size=8m
+
+networks:
+  acmenet:
+    name: spr-acme
+    driver_opts:
+      com.docker.network.bridge.name: spr-acme
