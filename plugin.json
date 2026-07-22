@@ -1,7 +1,7 @@
 {
   "Name": "spr-acme",
   "Runtime": "kvm",
-  "UnixPath": "/state/plugins/spr-acme/socket",
+  "UnixPath": "/state/plugins/spr-acme/socket.sock",
   "URI": "spr-acme",
   "HasUI": true,
   "Icon": "ShieldCheck",
