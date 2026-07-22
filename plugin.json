@@ -5,7 +5,7 @@
   "URI": "spr-acme",
   "HasUI": true,
   "Icon": "ShieldCheck",
-  "SandboxedUI": false,
+  "SandboxedUI": true,
   "InstallTokenPath": "/configs/plugins/spr-acme/api-token",
   "ScopedPaths": [
     "/dns/hostnames:rw"
