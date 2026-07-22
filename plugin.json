@@ -1,17 +1,18 @@
 {
   "Name": "spr-acme",
-  "ComposeFilePath": "plugins/user/spr-acme/docker-compose.yml",
+  "Runtime": "kvm",
   "UnixPath": "/state/plugins/spr-acme/socket",
   "URI": "spr-acme",
   "HasUI": true,
   "Icon": "ShieldCheck",
-  "SandboxedUI": false,
+  "SandboxedUI": true,
   "InstallTokenPath": "/configs/plugins/spr-acme/api-token",
   "ScopedPaths": [
     "/dns/hostnames:rw"
   ],
   "NetworkCapabilities": {
     "Interface": "spr-acme",
+    "DeviceMAC": "02:53:50:52:4b:02",
     "Policies": ["wan", "dns", "api"],
     "Groups": []
   },

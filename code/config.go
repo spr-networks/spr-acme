@@ -20,7 +20,7 @@ var (
 	HomePath         = StateDir + "/home"
 	LegoPath         = StateDir + "/lego"
 	CertificatesPath = StateDir + "/certificates"
-	UnixPluginSocket = StateDir + "/socket"
+	UnixPluginSocket = TEST_PREFIX + "/run/spr-krun-plugin/spr-acme.sock"
 	LegoBinary       = "/usr/local/bin/lego"
 )
 
