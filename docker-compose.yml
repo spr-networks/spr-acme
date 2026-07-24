@@ -6,7 +6,7 @@ x-labels:
 services:
   spr-acme:
     container_name: spr-acme
-    image: ghcr.io/spr-networks/spr-acme:${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+    image: ghcr.io/spr-networks/spr-acme:latest
     build:
       context: "${BUILDCTX:-.}"
       labels: *default-labels
