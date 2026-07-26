@@ -4,6 +4,7 @@ services:
       file: docker-compose.yml
       service: spr-acme
     image: ghcr.io/spr-networks/spr-acme:latest
+    build: !reset null
     runtime: ${SPR_KRUN_RUNTIME:-spr-krun}
     annotations:
       krun.cpus: "${SPR_KRUN_CPUS:-1}"
@@ -29,3 +30,4 @@ networks:
     name: spr-acme
     driver_opts:
       com.docker.network.bridge.name: spr-acme
+      com.docker.network.bridge.inhibit_ipv4: "true"
