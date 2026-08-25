@@ -298,7 +298,33 @@ export default function Plugin() {
   }
 
   const download = (id, name) => {
-    window.open(`${PLUGIN_BASE}/certificates/${id}/files/${name}`, '_blank', 'noopener,noreferrer')
+    const downloadID = `download:${id}:${name}`
+    setBusy(downloadID)
+    api
+      .fetch('GET', `${PLUGIN_BASE}/certificates/${id}/files/${name}`)
+      .then((response) => {
+        if (!response.ok) {
+          return Promise.reject({
+            message: response.status,
+            status: response.status,
+            response
+          })
+        }
+        return response.blob()
+      })
+      .then((blob) => {
+        const href = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = href
+        link.download = `${id}-${name}`
+        link.style.display = 'none'
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+        window.setTimeout(() => URL.revokeObjectURL(href), 1000)
+      })
+      .catch((err) => alert.error(`Could not download ${name}`, err))
+      .finally(() => setBusy(null))
   }
 
   if (loading) return <Page><Loading /></Page>
@@ -498,7 +524,13 @@ export default function Plugin() {
                   <Label>Download files</Label>
                   <HStack flexWrap="wrap" gap="$2">
                     {['fullchain.pem', 'cert.pem', 'chain.pem', 'privkey.pem'].map((name) => (
-                      <Button key={name} size="xs" variant="link" onPress={() => download(profile.ID, name)}>
+                      <Button
+                        key={name}
+                        size="xs"
+                        variant="link"
+                        onPress={() => download(profile.ID, name)}
+                        isDisabled={busy === `download:${profile.ID}:${name}`}
+                      >
                         <ButtonText>{name}</ButtonText>
                       </Button>
                     ))}
